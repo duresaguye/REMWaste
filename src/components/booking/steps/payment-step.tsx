@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import type React from "react"
 
 import { Card, CardContent } from "@/components/ui/card"
@@ -13,6 +14,30 @@ import { skipData } from "../../../constants/booking-data"
 import { calculateTotalPrice } from "../../../utils/pricing"
 import { StepLayout } from "../step-layout"
 import type { BookingState } from "../../../types/booking"
+import { PaymentDetailsPopup } from "./payment-details-popup"
+
+const europeanCountries = [
+  "United Kingdom",
+  "France",
+  "Germany",
+  "Spain",
+  "Italy",
+  "Netherlands",
+  "Belgium",
+  "Switzerland",
+  "Austria",
+  "Sweden",
+  "Norway",
+  "Denmark",
+  "Finland",
+  "Ireland",
+  "Portugal",
+  "Greece",
+  "Poland",
+  "Czech Republic",
+  "Hungary",
+  "Romania",
+]
 
 interface PaymentStepProps {
   state: BookingState
@@ -21,8 +46,25 @@ interface PaymentStepProps {
 }
 
 export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) {
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [selectedCountry, setSelectedCountry] = useState("United Kingdom")
   const selectedSkipData = skipData.find((skip) => skip.size === state.selectedSkip)
   const totalPrice = selectedSkipData ? calculateTotalPrice(selectedSkipData.price_before_vat, selectedSkipData.vat) : 0
+
+  const handlePaymentClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setIsPopupOpen(true)
+  }
+
+  const handleProceedPayment = (details: { firstName: string; lastName: string; email: string }) => {
+    // Here you would typically handle the payment processing
+    console.log("Payment details:", details)
+    setIsPopupOpen(false)
+  }
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+  }
 
   return (
     <StepLayout currentStep={state.currentStep}>
@@ -119,29 +161,23 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
                 </h3>
               </div>
               <CardContent className="p-8">
-                <form className="space-y-6">
+                <form onSubmit={handleFormSubmit} className="space-y-6">
                   <div>
-                    <Label htmlFor="email" className="text-slate-700 font-semibold text-lg">
-                      Email Address
+                    <Label htmlFor="country" className="text-slate-700 font-semibold text-lg">
+                      Country
                     </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="your@email.com"
-                      className="mt-2 h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="phone" className="text-slate-700 font-semibold text-lg">
-                      Phone Number
-                    </Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      placeholder="07123 456789"
-                      className="mt-2 h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20"
-                    />
+                    <select
+                      id="country"
+                      value={selectedCountry}
+                      onChange={(e) => setSelectedCountry(e.target.value)}
+                      className="mt-2 w-full h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20 rounded-md px-3"
+                    >
+                      {europeanCountries.map((country) => (
+                        <option key={country} value={country}>
+                          {country}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
@@ -190,7 +226,11 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
                   </div>
 
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button className="w-full bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white text-xl font-bold py-6 shadow-2xl shadow-violet-500/30">
+                    <Button
+                      type="button"
+                      onClick={handlePaymentClick}
+                      className="w-full bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white text-xl font-bold py-6 shadow-2xl shadow-violet-500/30"
+                    >
                       Complete Payment - £{totalPrice}
                     </Button>
                   </motion.div>
@@ -211,6 +251,13 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
           </Button>
         </div>
       </div>
+
+      <PaymentDetailsPopup
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        onProceed={handleProceedPayment}
+        totalPrice={totalPrice}
+      />
     </StepLayout>
   )
 }
