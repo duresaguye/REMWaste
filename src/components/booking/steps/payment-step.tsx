@@ -79,7 +79,7 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
   }
 
   const handleProceedPayment = (details: { firstName: string; lastName: string; email: string }) => {
-    // Here you would typically handle the payment processing
+   
     console.log("Payment details:", details)
     setIsPopupOpen(false)
   }
