@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import type React from "react"
 
 import { Card, CardContent } from "@/components/ui/card"
@@ -15,6 +15,7 @@ import { calculateTotalPrice } from "../../../utils/pricing"
 import { StepLayout } from "../step-layout"
 import type { BookingState } from "../../../types/booking"
 import { PaymentDetailsPopup } from "./payment-details-popup"
+import { PaymentCardDisplay } from "./payment-card-display"
 
 const europeanCountries = [
   "United Kingdom",
@@ -48,8 +49,29 @@ interface PaymentStepProps {
 export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [selectedCountry, setSelectedCountry] = useState("United Kingdom")
+  const [cardNumber, setCardNumber] = useState("")
+  const [cardHolder, setCardHolder] = useState("")
+  const [expiryDate, setExpiryDate] = useState("")
+  const [cardType, setCardType] = useState<"visa" | "mastercard" | "amex" | null>(null)
+
   const selectedSkipData = skipData.find((skip) => skip.size === state.selectedSkip)
   const totalPrice = selectedSkipData ? calculateTotalPrice(selectedSkipData.price_before_vat, selectedSkipData.vat) : 0
+
+  useEffect(() => {
+    // Detect card type based on first digits
+    const firstDigit = cardNumber.charAt(0)
+    const firstTwoDigits = cardNumber.substring(0, 2)
+
+    if (firstDigit === "4") {
+      setCardType("visa")
+    } else if (firstTwoDigits >= "51" && firstTwoDigits <= "55") {
+      setCardType("mastercard")
+    } else if (firstTwoDigits === "34" || firstTwoDigits === "37") {
+      setCardType("amex")
+    } else {
+      setCardType(null)
+    }
+  }, [cardNumber])
 
   const handlePaymentClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -64,6 +86,21 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+  }
+
+  const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "")
+    if (value.length <= 16) {
+      setCardNumber(value)
+    }
+  }
+
+  const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "")
+    if (value.length <= 4) {
+      const formatted = value.length > 2 ? `${value.slice(0, 2)}/${value.slice(2)}` : value
+      setExpiryDate(formatted)
+    }
   }
 
   return (
@@ -162,6 +199,15 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
               </div>
               <CardContent className="p-8">
                 <form onSubmit={handleFormSubmit} className="space-y-6">
+                  <div className="mb-8">
+                    <PaymentCardDisplay
+                      cardNumber={cardNumber}
+                      cardHolder={cardHolder}
+                      expiryDate={expiryDate}
+                      cardType={cardType}
+                    />
+                  </div>
+
                   <div>
                     <Label htmlFor="country" className="text-slate-700 font-semibold text-lg">
                       Country
@@ -186,6 +232,8 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
                     </Label>
                     <Input
                       id="card-number"
+                      value={cardNumber}
+                      onChange={handleCardNumberChange}
                       placeholder="1234 5678 9012 3456"
                       className="mt-2 h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20"
                     />
@@ -198,6 +246,8 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
                       </Label>
                       <Input
                         id="expiry"
+                        value={expiryDate}
+                        onChange={handleExpiryDateChange}
                         placeholder="MM/YY"
                         className="mt-2 h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20"
                       />
@@ -220,7 +270,9 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
                     </Label>
                     <Input
                       id="name"
-                      placeholder="John Smith"
+                      value={cardHolder}
+                      onChange={(e) => setCardHolder(e.target.value.toUpperCase())}
+                      placeholder="JOHN SMITH"
                       className="mt-2 h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20"
                     />
                   </div>
