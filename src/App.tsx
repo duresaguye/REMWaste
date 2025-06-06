@@ -1,7 +1,9 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from "react"
-import { Input } from "@/components/ui/input"
+
+import { Input } from "./components/ui/input"
+
 import { Search, MapPin, Sparkles, X, ChevronDown, ChevronUp } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import BookingFlow from "./components/booking-flow"
@@ -209,7 +211,7 @@ export default function SkipHireApp() {
                 type="text"
                 placeholder="Or enter postcode manually..."
                 value={postcode}
-                onChange={(e) => handleInputChange(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e.target.value)}
                 className="w-full pl-12 pr-10 py-5 text-lg bg-white/10 backdrop-blur-xl border-2 border-white/20 text-white placeholder-slate-400 rounded-2xl focus:ring-4 focus:ring-violet-400/30 focus:border-violet-400 transition-all duration-300 hover:bg-white/15"
               />
               {postcode && (

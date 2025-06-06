@@ -2,9 +2,9 @@
 
 import type React from "react"
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "../../../components/ui/card"
+import { Badge } from "../../../components/ui/badge"
+import { Button } from "../../../components/ui/button"
 import { CheckCircle, Truck, Zap } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { skipData } from "../../../constants/booking-data"
@@ -135,7 +135,7 @@ export function SkipSelectionStep({ state, onSkipSelect, onBack, onContinue, nav
                             ? "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg shadow-green-500/30"
                             : "bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 shadow-lg shadow-violet-500/30"
                         }`}
-                        onClick={(e) => {
+                        onClick={(e: { stopPropagation: () => void }) => {
                           e.stopPropagation()
                           onSkipSelect(skip.size)
                         }}

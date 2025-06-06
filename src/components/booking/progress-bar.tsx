@@ -1,6 +1,6 @@
 "use client"
 
-import { Progress } from "@/components/ui/progress"
+import { Progress } from "../../components/ui/progress"
 import { CheckCircle } from "lucide-react"
 import { motion } from "framer-motion"
 import { steps } from "../../constants/booking-data"

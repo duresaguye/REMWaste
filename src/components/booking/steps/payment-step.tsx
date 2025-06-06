@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react"
 import type React from "react"
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Card, CardContent } from "../../../components/ui/card"
+import { Badge } from "../../../components/ui/badge"
+import { Button } from "../../../components/ui/button"
+import { Input } from "../../../components/ui/input"
+import { Label } from "../../../components/ui/label"
 import { CreditCard, Sparkles, ArrowLeft } from "lucide-react"
 import { motion } from "framer-motion"
 import { skipData } from "../../../constants/booking-data"
@@ -271,7 +271,7 @@ export function PaymentStep({ state, onBack, navigationRef }: PaymentStepProps) 
                     <Input
                       id="name"
                       value={cardHolder}
-                      onChange={(e) => setCardHolder(e.target.value.toUpperCase())}
+                      onChange={(e: { target: { value: string } }) => setCardHolder(e.target.value.toUpperCase())}
                       placeholder="JOHN SMITH"
                       className="mt-2 h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20"
                     />

@@ -2,8 +2,9 @@
 
 import type React from "react"
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Calendar } from "@/components/ui/calendar"
+import { Card, CardContent } from "../../../components/ui/card"
+import { Calendar } from "../../../components/ui/calendar"
+
 import { CalendarIcon, Truck } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { NavigationButtons } from "../navigation-buttons"
@@ -52,7 +53,7 @@ export function DateStep({ state, onDateSelect, onBack, onContinue, navigationRe
                 mode="single"
                 selected={state.selectedDate}
                 onSelect={onDateSelect}
-                disabled={(date) => date < new Date()}
+                disabled={(date: Date) => date.getTime() < new Date().getTime()}
                 className="rounded-xl border-0 w-full"
               />
             </Card>

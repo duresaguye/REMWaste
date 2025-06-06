@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useState, type SetStateAction } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Card, CardContent } from "../../../components/ui/card"
+
+import { Button } from "../../../components/ui/button"
+import { Input } from "../../../components/ui/input"
+import { Label } from "../../../components/ui/label"
 import { X, User, Mail, CreditCard } from "lucide-react"
 
 interface PaymentDetailsPopupProps {
@@ -68,7 +69,7 @@ export function PaymentDetailsPopup({ isOpen, onClose, onProceed, totalPrice }: 
                       <Input
                         id="firstName"
                         value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        onChange={(e: { target: { value: SetStateAction<string> } }) => setFirstName(e.target.value)}
                         required
                         className="mt-2 h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20"
                       />
@@ -82,7 +83,7 @@ export function PaymentDetailsPopup({ isOpen, onClose, onProceed, totalPrice }: 
                       <Input
                         id="lastName"
                         value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                        onChange={(e: { target: { value: SetStateAction<string> } }) => setLastName(e.target.value)}
                         required
                         className="mt-2 h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20"
                       />
@@ -97,7 +98,7 @@ export function PaymentDetailsPopup({ isOpen, onClose, onProceed, totalPrice }: 
                         id="email"
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e: { target: { value: SetStateAction<string> } }) => setEmail(e.target.value)}
                         required
                         className="mt-2 h-12 text-lg border-2 border-slate-200 focus:border-violet-400 focus:ring-violet-400/20"
                       />

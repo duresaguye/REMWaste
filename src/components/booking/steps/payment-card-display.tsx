@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { Wifi, CreditCard } from "lucide-react"
+import { Wifi} from "lucide-react"
 
 interface PaymentCardDisplayProps {
   cardNumber: string

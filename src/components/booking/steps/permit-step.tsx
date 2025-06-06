@@ -2,7 +2,8 @@
 
 import type React from "react"
 
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "../../../components/ui/card"
+
 import { Home, MapPin, FileText, Clock } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { NavigationButtons } from "../navigation-buttons"

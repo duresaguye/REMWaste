@@ -1,6 +1,8 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+
+import { Button } from "../../components/ui/button"
+
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { forwardRef } from "react"
 

@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
+import { Card, CardContent } from "../../../components/ui/card"
+import { Badge } from "../../../components/ui/badge"
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Info, Sparkles, CheckCircle } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { wasteTypes } from "../../../constants/booking-data"

@@ -1,7 +1,7 @@
 "use client"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialog"
+import { Button } from "../../ui/button"
 import { Upload, X } from "lucide-react"
 import { motion } from "framer-motion"
 

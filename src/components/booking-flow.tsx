@@ -14,7 +14,7 @@ import { PlasterboardPercentageModal } from "./booking/modals/plasterboard-perce
 import { PhotoUploadModal } from "./booking/modals/photo-upload-modal"
 import type { BookingFlowProps } from "../types/booking"
 
-export default function BookingFlow({ initialPostcode, onBack }: BookingFlowProps) {
+export default function BookingFlow({ onBack }: BookingFlowProps) {
   const { state, updateState } = useBookingState()
   const { navigationRef, scrollToNavigation } = useAutoScroll()
 
@@ -117,7 +117,7 @@ export default function BookingFlow({ initialPostcode, onBack }: BookingFlowProp
             onWasteTypeSelect={handleWasteTypeSelect}
             onBack={onBack}
             onContinue={handleContinueFromWaste}
-            navigationRef={navigationRef}
+            navigationRef={navigationRef as React.RefObject<HTMLDivElement>}
           />
           <HeavyWasteModal
             isOpen={showHeavyWasteModal}
@@ -149,7 +149,7 @@ export default function BookingFlow({ initialPostcode, onBack }: BookingFlowProp
           onSkipSelect={handleSkipSelect}
           onBack={() => goToStep(1)}
           onContinue={() => goToStep(3)}
-          navigationRef={navigationRef}
+          navigationRef={navigationRef as React.RefObject<HTMLDivElement>}
         />
       )
 
@@ -161,7 +161,7 @@ export default function BookingFlow({ initialPostcode, onBack }: BookingFlowProp
             onPlacementSelect={handlePlacementSelect}
             onBack={() => goToStep(2)}
             onContinue={() => setShowPhotoUpload(true)}
-            navigationRef={navigationRef}
+            navigationRef={navigationRef as React.RefObject<HTMLDivElement>}
           />
           <PhotoUploadModal
             isOpen={showPhotoUpload}
@@ -179,12 +179,12 @@ export default function BookingFlow({ initialPostcode, onBack }: BookingFlowProp
           onDateSelect={handleDateSelect}
           onBack={() => goToStep(3)}
           onContinue={() => goToStep(5)}
-          navigationRef={navigationRef}
+          navigationRef={navigationRef as React.RefObject<HTMLDivElement>}
         />
       )
 
     case 5:
-      return <PaymentStep state={state} onBack={() => goToStep(4)} navigationRef={navigationRef} />
+      return <PaymentStep state={state} onBack={() => goToStep(4)} navigationRef={navigationRef as React.RefObject<HTMLDivElement>} />
 
     default:
       return (
@@ -193,7 +193,7 @@ export default function BookingFlow({ initialPostcode, onBack }: BookingFlowProp
           onWasteTypeSelect={handleWasteTypeSelect}
           onBack={onBack}
           onContinue={handleContinueFromWaste}
-          navigationRef={navigationRef}
+          navigationRef={navigationRef as React.RefObject<HTMLDivElement>}
         />
       )
   }
